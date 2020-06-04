@@ -1,0 +1,212 @@
+Crear nueva imagen:
+
+mkdir docker-images
+
+cd docker-images
+
+vi Dockerfile
+
+--
+FROM centos
+
+RUN yum install httpd -y
+--
+
+docker build --tag apache-centos .  # '.' ejecuta el Dockerfile
+ 
+
+docker build --tag apache-centos:primera .  # especificar el tag  'primera'
+
+docker history -H apache-centos:latest   # -H --human,formatolegible para humanos
+
+========
+
+Crear contenedor:
+
+docker images | grep apache
+
+vi Dockerfile
+---
+FROM centos
+
+RUN yum install httpd -y
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+---
+
+docker build -t apache-centos:apache-cmd .  #--tag , -t
+
+docker run -d --name apache apache-centos:apache-cmd #--name apache
+
+docker ps
+
+docker rm -fv apache
+
+docker run -d --name apache -p 80:80 apache-centos:apache-cmd 
+
+=======
+Ejemplo apache uso de copy
+
+
+nano Dockerfile
+
+----
+FROM centos
+
+RUN yum install httpd -y
+
+COPY beryllium /var/www/html
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
+----
+docker build -t apache .
+
+docker images
+
+docker run -d -p 80:80 apache
+
+*Abrir navegador localhost
+
+
+Uso de ADD:
+----
+FROM centos
+
+RUN yum install httpd -y
+
+#COPY beryllium /var/www/html
+ADD startbootstrap-freelancer-master /var/www/html
+
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+----
+
+nano Dockerfile
+----
+FROM centos
+
+RUN yum install httpd -y
+
+COPY startbootstrap-freelancer-master /var/www/html
+
+ENV contenido prueba //variable: 'contenido' -> valor 'prueba'
+
+RUN echo "$contenido" > /var/www/html/prueba.html  #imprimir la variable contenido en prueba.html                                                                       
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+----
+
+docker build -t apache .
+
+docker run -d -p 80:80 apache
+
+
+nano Dockerfile
+----
+FROM centos
+
+RUN yum install httpd -y
+
+WORKDIR /var/www/html  #Directorio de trabajo
+
+COPY startbootstrap-freelancer-master .  #'.' actual directorio                                                                                 
+ENV contenido prueba
+
+RUN echo "$contenido" > /var/www/html/prueba.html
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+----
+docker build -t apache .
+
+docker rm -f [nombre_anterior_contenedor]
+
+docker run -d -p 80:80 apache
+
+
+nano Dockerfile
+-----
+FROM centos
+
+RUN yum install httpd -y
+
+WORKDIR /var/www/html
+
+COPY startbootstrap-freelancer-master .
+
+ENV contenido prueba
+
+RUN echo "$contenido" > /var/www/html/prueba.html
+
+EXPOSE 8080  # exponer en puerto 8080
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+-----
+
+
+
+
+======
+nano Dockerfile
+----
+FROM centos
+
+#Label metadata 
+LABEL version=1.0
+LABEL description="Apache Image"
+LABEL vendor=Author
+
+RUN yum install httpd -y
+
+COPY startbootstrap-freelancer-master /var/www/html
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+---
+
+
+---
+FROM centos
+
+LABEL version=1.0
+LABEL description="Apache Image"
+LABEL vendor=Author
+
+RUN yum install httpd -y
+
+COPY startbootstrap-freelancer-master /var/www/html
+
+#Imprimir nombre del usuario - root
+RUN echo "$(whoami)" > /var/www/html/user1.html
+
+#Adicionar usuario
+RUN useradd Angel                                                                                   
+#Imprimir usuario adicionado                   
+RUN echo "$(whoami)" > /var/www/html/user2.html                                                                         
+
+ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+---
+
+docker build -t apache .
+
+docker rm -f [nombre_anterior_contenedor]
+
+docker run -d -p 80:80 apache
+
+*Navegador
+localhost/user1.html -> root
+
+localhost/user2.html -> Angel
+
+
+
+nano Dockerfile
+-----
+VOLUME /var/www/html  #Persistir data 
+-----
+
+
+
+
+
+
+
+

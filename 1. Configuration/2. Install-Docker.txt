@@ -1,0 +1,19 @@
+Install Docker in Ubuntu
+
+https://docs.docker.com/engine/install/ubuntu/
+
+# Iniciarlo con el sistema
+
+sudo systemctl enable docker
+
+# Agregar usuario al grupo docker 
+
+whoami # Saber el nombre de tu usuario
+sudo usermod -aG docker nombre_de_salida_en_whoami
+
+# Salir de la sesión
+exit
+
+# Iniciar de nuevo con el usuario y probar 
+
+docker run hello-world
