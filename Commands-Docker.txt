@@ -1,0 +1,14 @@
+===========================================
+docker --version
+docker run -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
+docker run -p 5000:5000 in28min/hello-world-java:0.0.1.RELEASE
+docker run -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+===========================================
+docker run -d -p 5000:5000 in28min/hello-world-nodejs:0.0.1.RELEASE
+docker run -d -p 5001:5000 in28min/hello-world-python:0.0.1.RELEASE
+
+So this is showing the internal container port
+5000
+
+Well the application is exposed on the host, it's port 
+5001
