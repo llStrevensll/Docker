@@ -1,3 +1,4 @@
+https://docs.docker.com/engine/reference/commandline/search/
 ===========================================
 docker --version
 docker run -p 5000:5000 in28min/hello-world-python:0.0.1.RELEASE
@@ -12,3 +13,51 @@ So this is showing the internal container port
 
 Well the application is exposed on the host, it's port 
 5001
+
+Detached
+To start a container in detached mode, you use -d=true or just -d
+
+To view logs:
+docker logs <CONTAINER ID>
+==========================================
+docker images
+docker container ls    / docker ps
+docker container ls -a
+docker container stop <CONTAINER ID>
+===========================================
+Docker Client is the client
+and the docker deamon is like a server component
+- docker deamon-> Responsible for execution of that specific command
+
+docker run -d -p 5001:5000 in28min/hello-world-rest-api:0.0.1.RELEASE
+docker logs <CONTAINER ID>
+//Error port - validate port
+docker stop <CONTAINER ID>
+docker run -d -p 5001:8080 in28min/hello-world-rest-api:0.0.1.RELEASE
+
+//Serach image en docker hub
+docker search mysql
+docker pull mysql
+docker image history in28min/hello-world-java:0.0.1.RELEASE
+docker image history <IMAGE ID>
+docker image inspect <IMAGE ID>
+docker image remove mysql
+
+docker image remove <IMAGE ID>
+//Error remove image, because image is beingused by stopped container
+
+docker container rm <CONTAINER ID>
+docker image remove <IMAGE ID>
+=============================================================
+https://stackoverflow.com/questions/51466148/pause-vs-stop-in-docker#:~:text=docker%20pause%20pauses%20(i.e.%2C%20sends,s%5D's%20main%20process.
+
+docker container ls -a
+docker container pause <CONTAINER ID>
+docker container unpause <CONTAINER ID>
+
+docker container stop <CONTAINER ID>
+docker container kill <CONTAINER ID>
+docker container inspect <CONTAINER ID>
+// Remove all stopped containers
+docker container prune
+
