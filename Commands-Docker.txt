@@ -61,3 +61,30 @@ docker container inspect <CONTAINER ID>
 // Remove all stopped containers
 docker container prune
 
+==============================================================
+//info system and stats
+docker system //-> view options
+docker system df  
+
+docker system events  //Use docker run, and see log(docker system events) in other terminal
+
+//Delete all stopped containers and delete all images which don´t have a container associated with them
+docker system prune -a
+
+docker stats
+docker stats <CONTAINER ID>
+
+docker run -p 5000:5000 -d -m 512m in28min/hello-world-nodejs:0.0.1.RELEASE    //Limit 512m
+
+docker stats <CONTAINER ID>
+
+docker container run -p 5000:5000 -d -m 512m --cpu-quota=50000  in28min/hello-world-java:0.0.1.RELEASE
+===========================================================
+
+cd /in28Minutes/git/devops-master-class/projects/hello-world/hello-world-python 
+docker build -t in28min/hello-world-python:0.0.2.RELEASE . 
+docker run -p 5000:5000 -d in28min/hello-world-python:0.0.2.RELEASE
+
+docker images //you can see image python alpine
+
+docker history <IMAGE ID>
