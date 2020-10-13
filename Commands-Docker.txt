@@ -88,3 +88,21 @@ docker run -p 5000:5000 -d in28min/hello-world-python:0.0.2.RELEASE
 docker images //you can see image python alpine
 
 docker history <IMAGE ID>
+
+---................--------------..................-----------
+POSSIBLE ERROR:
+denied: requested access to the resource is denied
+
+docker login
+docker tag in28min/hello-world-python:0.0.2.RELEASE llstrevensll/hello-world-python:0.0.2.RELEASE
+
+docker push llstrevensll/hello-world-python:0.0.2.RELEASE
+---................--------------..................-----------
+===
+docker build -t llstrevensll/hello-world-nodejs:0.0.2.RELEASE . 
+docker run -d -p 5000:5000 llstrevensll/hello-world-nodejs:0.0.2.RELEASE 
+docker logs -f <CONTAINER ID>
+
+
+
+
