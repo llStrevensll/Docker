@@ -1,0 +1,4 @@
+CARPETA COMPARTIDA:
+
+http://www.javiercarrasco.es/2012/07/20/carpeta-compartida-entre-windows-anfitrion-y-ubuntu-en-virtualbox/
+

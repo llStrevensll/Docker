@@ -1,0 +1,5 @@
+Crear conexion con la maquina virtual con ssh
+
+* Si la maquina se configuro en red con NAT:
+https://www.youtube.com/watch?v=mKULBQLQXnY
+
