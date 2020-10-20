@@ -79,7 +79,7 @@ docker run -p 5000:5000 -d -m 512m in28min/hello-world-nodejs:0.0.1.RELEASE    /
 docker stats <CONTAINER ID>
 
 docker container run -p 5000:5000 -d -m 512m --cpu-quota=50000  in28min/hello-world-java:0.0.1.RELEASE
-===========================================================
+=============================================================
 
 cd /in28Minutes/git/devops-master-class/projects/hello-world/hello-world-python 
 docker build -t in28min/hello-world-python:0.0.2.RELEASE . 
@@ -103,6 +103,89 @@ docker build -t llstrevensll/hello-world-nodejs:0.0.2.RELEASE .
 docker run -d -p 5000:5000 llstrevensll/hello-world-nodejs:0.0.2.RELEASE 
 docker logs -f <CONTAINER ID>
 
+==============
+Improving layer caching
+It's not only faster to build images, but also it will be faster 
+to push the image to Docker Hub
+
+FROM node:8.16.1-alpine
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+EXPOSE 5000
+COPY . /app
+CMD node index.js
+
+--
+FROM python:alpine3.10
+WORKDIR /app 
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . /app
+CMD python ./launch.py
+
+=========================================================
+CMD - ENTRYPOINT
+
+docker run -d -p 5000:5001 llstrevensll/hello-world-nodejs:0.0.2.RELEASE ping google.com
+docker logs -f <CONTAINER ID>
+
+What happens with CMD, is these parameters will be replaced by whatever you are passing in here
+
+CMD node index.js
+that would be replaced by being ping google.com
+
+However ENTRYPOINT 
+does not worry about command line arguments
 
 
+ENTRYPOINT ["python", "./launch.py"]
+--entrypoint
 
+===================================
+MICROSERVICES
+Because these microservices are very smallThe number of deployments increase exponentially
+-Docker
+
+docker run -d -p 8089:8000 --name=currency-exchange in28min/currency-exchange:0.0.1-RELEASE
+docker run -d -p 8000:8000 --name=currency-exchange in28min/currency-exchange:0.0.1-RELEASE
+
+docker run -d -p 8100:8100 --name=currency-conversion in28min/currency-conversion:0.0.1-RELEASE 
+
+
+docker network ls
+docker network inspect bridge
+//You'd see that there are two containers which are part of the bridge network
+//So you can see that the currency conversion and the currency exchange are part of this specific bridge
+
+
+docker run -d -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange --name=currency-conversion --link currency-exchange in28min/currency-conversion:0.0.1-RELEASE
+
+Other options:
+docker network ls
+none - can not be used for connect microservices
+host
+
+The host networking driver only works on Linux hosts, and is not supported on Docker Desktop for Mac, Docker Desktop for Windows, or Docker EE for Windows Server.
+https://docs.docker.com/network/host/
+
+Create a custom network:
+docker network create currency-network
+
+docker stop currency-exchange
+docker stop currency-conversion
+
+docker rm currency-exchange
+docker rm currency-conversion
+
+docker run -d -p 8000:8000 --name=currency-exchange --network=currency-network in28min/currency-exchange:0.0.1-RELEASE
+docker run -d -p 8100:8100 --env CURRENCY_EXCHANGE_SERVICE_HOST=http://currency-exchange --name=currency-conversion --network=currency-network in28min/currency-conversion:0.0.1-RELEASE
+docker logs
+-----------
+Create docker compose yaml
+docker-compose up
+
+docker-compose up -d
+docker ps
+docker network ls
