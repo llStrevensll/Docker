@@ -54,7 +54,29 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>	
+
+			<!-- Plugin to generate a docker build without Dockerfile - JIB-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>1.6.1</version>
+				<configuration>
+					<container>
+						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>dockerBuild</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Plugin to generate dependency folder in the target - Maven Plugin -->
+			<!-- <plugin>	
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -75,7 +97,9 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
+
+			<!-- Plugin to create an image with docker when you execute a compilation - Spotify Plugin-->
 			<!-- <plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>dockerfile-maven-plugin</artifactId>
@@ -94,6 +118,7 @@
 					<skipDockerInfo>true</skipDockerInfo>
 				</configuration>
 			</plugin> -->
+
 		</plugins>
 
 	</build>
