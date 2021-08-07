@@ -22,7 +22,7 @@ public class HelloWorldController {
 	/// hello-world/path-variable/angel
 	@GetMapping(path = "/hello-world/path-variable/{name}")
 	public HelloWorld helloWorldPathVariable(@PathVariable String name) {
-		return new HelloWorld(String.format("Hello World, %s", name));
+		return new HelloWorld(String.format("Hello World V3, %s", name));
 	}
 	
 	

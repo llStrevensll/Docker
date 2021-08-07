@@ -1,0 +1,30 @@
+docker build -t llstrevensll/hello-world-rest-api:dockerfile1 .
+docker run -d -p 8080:8080 llstrevensll/hello-world-rest-api:dockerfile1
+docker logs 23d859d310ab31d053
+
+
+mvn package -DskipTests
+
+<repository>llstrevensll/${project.name}</repository>  //project.name = <name>hello-world-rest-api</name>
+<tag>${project.version}</tag>  //project.version = <version>0.0.1-SNAPSHOT</version>
+
+
+docker images
+docker run -d -p 8080:8080 llstrevensll/hello-world-rest-api:0.0.1-SNAPSHOT
+
+#Caching docker image to add dependencies in another stage
+https://spring.io/guides/topicals/spring-boot-docker/
+https://stackoverflow.com/questions/18093928/what-does-could-not-find-or-load-main-class-mean
+
+Use Plugin maven-dependency-plugin
+<id>unpack</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+
+
+mvn clean package
+docker build -t llstrevensll/hello-world-rest-api:dockerfile1 .
+docker run -d -p 8080:8080 llstrevensll/hello-world-rest-api:dockerfile1
+docker exec -it 33e56ff4deec /bin/sh
