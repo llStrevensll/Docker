@@ -44,4 +44,14 @@ docker run -p 8080:8080 llstrevensll/hello-world-rest-api:dockerfile1 param1 par
 
 But if you use the argument --entrypoint, then you can override the ENTRYPOINT which is configured
 
+---
+push image with spotify dockerfile plugin
+You need configure your file settings.xml
 
+<servers>
+  <server>
+    <id>docker-repo.example.com:8080</id>
+	<username>me</username>
+	<password>mypassword</password>
+  </server>
+</servers>
