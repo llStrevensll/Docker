@@ -189,3 +189,34 @@ docker-compose up
 docker-compose up -d
 docker ps
 docker network ls
+
+
+-----
+Using a Volume
+More details in mysql project
+```
+docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=todos-user --env MYSQL_PASSWORD=dummytodos --env MYSQL_DATABASE=todos --name mysql --publish 3306:3306 --network=web-application-mysql-network --volume mysql-database-volume:/var/lib/mysql  mysql:5.7
+```
+
+
+---
+docker inspect <id container>
+docker inspect d377749f62b7
+
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "mysql-database-volume",
+                "Source": "/var/lib/docker/volumes/mysql-database-volume/_data",
+                "Destination": "/var/lib/mysql",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+
+location for this volume in docker-windows
+https://stackoverflow.com/questions/43181654/locating-data-volumes-in-docker-desktop-windows#:~:text=Your%20volume%20directory%20is%20%2Fvar,drives%20with%20Docker%20on%20Windows.
+
+\\wsl$\docker-desktop-data\version-pack-data\community\docker\volumes\
